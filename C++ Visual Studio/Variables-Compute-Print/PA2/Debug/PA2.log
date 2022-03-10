@@ -1,0 +1,13 @@
+﻿  PA2.c
+  main.c
+C:\Users\isob0\source\repos\PA2\PA2\PA2.c(106,78): warning C4244:  '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\isob0\source\repos\PA2\PA2\main.c(66,34): warning C4244:  'function': conversion from 'double' to 'int', possible loss of data
+C:\Users\isob0\source\repos\PA2\PA2\main.c(66,38): warning C4244:  'function': conversion from 'double' to 'int', possible loss of data
+C:\Users\isob0\source\repos\PA2\PA2\main.c(66,42): warning C4244:  'function': conversion from 'double' to 'int', possible loss of data
+C:\Users\isob0\source\repos\PA2\PA2\main.c(66,46): warning C4244:  'function': conversion from 'double' to 'int', possible loss of data
+C:\Users\isob0\source\repos\PA2\PA2\main.c(87,9): warning C4476:  'printf' : unknown type field character ')' in format specifier
+C:\Users\isob0\source\repos\PA2\PA2\main.c(87,9): warning C4477:  'printf' : format string '%d' requires an argument of type 'int', but variadic argument 2 has type 'double'
+C:\Users\isob0\source\repos\PA2\PA2\main.c(87,9): warning C4477:  'printf' : format string '%d' requires an argument of type 'int', but variadic argument 3 has type 'double'
+  Generating Code...
+C:\Users\isob0\source\repos\PA2\PA2\main.c(8,49): warning C4101:  'A': unreferenced local variable
+  PA2.vcxproj -> C:\Users\isob0\source\repos\PA2\Debug\PA2.exe

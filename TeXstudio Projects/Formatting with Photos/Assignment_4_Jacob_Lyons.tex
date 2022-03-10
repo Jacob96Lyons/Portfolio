@@ -1,0 +1,115 @@
+\documentclass{article}
+\usepackage{amsmath, amsfonts, amsthm, amssymb}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=2cm,heightrounded=true,centering]{geometry}%eraseifyouwantlargemargin
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+\title{The Origin of Zero}
+\author{Jacob Lyons}
+\date{7/5/2021}
+
+\newtheorem{lastname}{Lyons}[section]
+\newtheorem{firstname}{Jacob}
+\newcounter{newc}
+\hypersetup{colorlinks=true, linkcolor=blue, filecolor=magenta, urlcolor=cyan,}
+
+\newenvironment{new environment}[1]
+{\begin{center}
+		#1\vspace{0.1in}\\
+		\begin{tabular}{|p{0.9\textwidth}|}
+			\hline\\
+		}
+		{ 
+			\\\\\hline
+		\end{tabular} 
+	\end{center}
+}
+
+\newcounter{ex}[section]
+\newenvironment{counter environment}[1]
+{
+	{\refstepcounter{ex}}
+	\begin{center}
+		#1\vspace{0.1in}\\
+		\begin{tabular}{|p{0.9\textwidth}|}
+			\hline\\
+		}
+		{ 
+			\\\\\hline
+		\end{tabular} 
+	\end{center}
+}
+
+
+\newenvironment{last environment}[1]
+{
+	{\refstepcounter{ex}}
+	\begin{center}
+		\textbf{New envirionment \theex.}
+		#1\vspace{0.1in}\\
+		\begin{tabular}{|p{0.9\textwidth}|}
+			\hline\\
+		}
+		{ 
+			\\\\\hline
+		\end{tabular} 
+	\end{center}
+}
+
+
+\begin{document}
+	
+	\maketitle
+	
+	\section{Figures}
+	The first image should be centered and the size of it shouldn’t be wider than 0.5 textwidth. The image should
+	contain a caption and it should be labeled:	\\
+	
+	\begin{figure}[h] %%%h,t,p is an option that I’ll explain soon.
+		\centering %%%should be clear what this does.
+		\includegraphics[width=0.3\textwidth]{tex} %%I used 0.3 because it matched the document given, otherwise i would've used 0.5%%
+		\caption{\label{latex}first image}
+	\end{figure}
+
+\noindent Once the image is labeled, I can refer to it using \textbackslash ref\{latex\} like this: \ref{latex}	\\
+
+\noindent The second image should be centered and the size of it should be wider than 0.5 textwidth. It should also be placed in a new page with a labeled caption, \ref{latex2}
+
+	
+	\begin{figure}[p] %%%h,t,p is an option that I’ll explain soon.
+		\centering %%%should be clear what this does.
+		\includegraphics[width=0.5\textwidth]{tex}
+		\caption{\label{latex2}second image}	
+	\end{figure} 
+
+
+
+	\section{Environment}	
+	Define a new environment that does this:
+		\begin{last environment}{This is where the argument goes.}
+			\begin{center}
+				This is a new numbered environment!
+			\end{center}
+		\end{last environment}
+
+	\noindent This is a numbered environment.
+		\begin{last environment}{This is where the argument goes.}
+			\begin{center}
+				So this is New environment 2!
+			\end{center}
+		\end{last environment}
+
+\newpage	
+	
+	\section{environment2}
+		\begin{last environment}{This is where the argument goes.}
+			\begin{center}
+				And it must reset the counter when you start a new section.
+			\end{center}
+		\end{last environment}
+
+
+
+\end{document}
+

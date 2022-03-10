@@ -1,0 +1,13 @@
+﻿  functions.c
+  main.c
+C:\Users\isob0\source\repos\PA3\PA3\functions.c(251,10): warning C4098:  'print_double': 'void' function returning a value
+C:\Users\isob0\source\repos\PA3\PA3\main.c(62,77): warning C4244:  '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\isob0\source\repos\PA3\PA3\main.c(17,9): warning C4101:  'dub': unreferenced local variable
+C:\Users\isob0\source\repos\PA3\PA3\main.c(16,6): warning C4101:  'integer': unreferenced local variable
+C:\Users\isob0\source\repos\PA3\PA3\main.c(17,32): warning C4101:  'number1': unreferenced local variable
+C:\Users\isob0\source\repos\PA3\PA3\main.c(17,59): warning C4101:  'number4': unreferenced local variable
+C:\Users\isob0\source\repos\PA3\PA3\main.c(17,68): warning C4101:  'number5': unreferenced local variable
+C:\Users\isob0\source\repos\PA3\PA3\main.c(17,50): warning C4101:  'number3': unreferenced local variable
+  Generating Code...
+C:\Users\isob0\source\repos\PA3\PA3\main.c(17,41): warning C4101:  'number2': unreferenced local variable
+  PA3.vcxproj -> C:\Users\isob0\source\repos\PA3\Debug\PA3.exe

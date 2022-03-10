@@ -1,0 +1,7 @@
+This is a game I made in 2015 with a friend. The game loads very slow, but still works. If it crashes, just launch it again.
+
+Use the .exe in the Install folder to play it yourself.
+-> Drive:\Homemade Game - SpaceX\SpaceX\Install\spacex.exe
+
+The game has no sounds and no ending, but is still a fun project I am proud of.
+Enjoy!

@@ -1,0 +1,17 @@
+800x600
+
+30x30 actors/bricks(aka wall)/aliens
+
+make sure width is 750 (20*24)
+
+W- Wall
+
+O- Open
+
+K- Keycard
+
+S- Server
+
+A- Start (Door)
+
+X, Y, Z- Bed

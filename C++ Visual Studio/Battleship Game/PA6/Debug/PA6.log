@@ -1,0 +1,10 @@
+﻿  functions.c
+C:\Users\isob0\source\repos\PA6\PA6\functions.c(49,36): warning C4013: 'select_who_starts_first' undefined; assuming extern returning int
+C:\Users\isob0\source\repos\PA6\PA6\functions.c(288,13): warning C4013: 'time' undefined; assuming extern returning int
+C:\Users\isob0\source\repos\PA6\PA6\functions.c(727,51): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\isob0\source\repos\PA6\PA6\functions.c(728,51): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\isob0\source\repos\PA6\PA6\functions.c(160): warning C4716: 'play_game': must return a value
+C:\Users\isob0\source\repos\PA6\PA6\functions.c(177): warning C4716: 'welcome_screen': must return a value
+C:\Users\isob0\source\repos\PA6\PA6\functions.c(380): warning C4716: 'initialize_game_board': must return a value
+C:\Users\isob0\source\repos\PA6\PA6\functions.c(427): warning C4716: 'update_board': must return a value
+  PA6.vcxproj -> C:\Users\isob0\source\repos\PA6\Debug\PA6.exe
