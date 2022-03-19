@@ -1,0 +1,1 @@
+replaceitem entity @s inventory.18 barrier{CustomModelData:32,display:{Name:'{"text":"RECYCLE","color":"gray","italic":"false"}',Lore:['{"color":"gray","italic":"false","text":"Recycle a weapon for"}','{"color":"gray","italic":"false","text":"50% its value"}']}}

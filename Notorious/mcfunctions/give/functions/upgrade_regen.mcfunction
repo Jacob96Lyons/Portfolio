@@ -1,0 +1,2 @@
+give @s carrot_on_a_stick{CustomModelData:12b,display:{Name:'{"text":"REGENERATION BONUS","color":"green","italic":"false"}',Lore:['{"color":"gray","italic":"false","text":"Increases Base Regeneration"}','{"color":"gray","italic":"false","text":"By 8. Maximum 10 Upgrades"}']}}
+scoreboard players remove @s coins 1000

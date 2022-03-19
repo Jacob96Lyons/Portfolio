@@ -1,0 +1,2 @@
+give @s carrot_on_a_stick{CustomModelData:10b,display:{Name:'{"text":"DAMAGE MULTIPLYER BONUS","color":"blue","italic":"false"}',Lore:['{"color":"gray","italic":"false","text":"Increases Damage Multiplyer"}','{"color":"gray","italic":"false","text":"By 10% Maximum 10 Upgrades"}']}}
+scoreboard players remove @s coins 1000

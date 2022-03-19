@@ -1,0 +1,38 @@
+Patch Notes: The Gun Update
+Finally (after probably too long) all of the in-game items have had a visual overhaul giving them
+new models and textures. Not only do the guns have new models, but the upgrades, health boost, and 
+knives all do as well. This update also has the added bonus of potentially making way for a future 
+update concerning more gun textures being added (hint hint). These notes are to give a general idea 
+of changes, but I recommend hopping on to see for yourselves 🙂.
+
+Pistol:            Body color changed to dark gray, added white sight dots
+
+Revolver:          Handle color changed to dark gray, added green sight dots
+
+Submachine gun:    Complete color change to dark gray, added green sight dots
+
+Slug Shotgun:      Complete color change to dark and light gray, added green sight dots
+
+Spread Shotgun:    Complete color change to dark and light gray, added red sight dots and shells
+
+Scout Rifle:       General shape changed, added red dot sight
+
+Burst Rifle:       General shape changed, body color changed to gray, added red dot sight
+
+Assault Rifle:     Body color changed to gray, added green sight dots
+
+Light Sniper:      Complete color change to gray and dark gray, no longer look through scope
+
+Heavy Sniper:      Complete color change to gray and dark gray, added much more BEEF
+
+Knife:             Changed to new 3D model
+
+Sharp Knife        Changed to new 3D model
+
+Flash Grenade      Texture changed
+
+Smoke Grenade      Model changed, brighter gray color
+
+Health Boost       Changed to new 3D model
+
+Upgrades           Changed to new 3D models

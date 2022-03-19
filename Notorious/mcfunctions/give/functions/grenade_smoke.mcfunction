@@ -1,0 +1,2 @@
+give @s snowball{CustomModelData:1,grenade:1,display:{Name:'{"text":"SMOKE GRENADE","color":"red","italic":"false"}',Lore:['{"color":"gray","italic":"false","text":"Tactical Item"}','{"color":"gray","italic":"false","text":"Provides Moderate Cover"}','{"color":"gray","italic":"false","text":"-------------------"}','{"color":"gray","italic":"false","text":"Radius           4 Blocks"}','{"color":"gray","italic":"false","text":"Duration       15 Seconds"}']}}
+scoreboard players remove @s coins 500

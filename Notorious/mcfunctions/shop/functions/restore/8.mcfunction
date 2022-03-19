@@ -1,0 +1,1 @@
+replaceitem entity @s inventory.8 barrier{CustomModelData:13b,display:{Name:'{"text":"HEALTH BONUS","color":"red","italic":"false"}',Lore:['{"color":"gray","italic":"false","text":"Increases Base Health"}','{"color":"gray","italic":"false","text":"by 200"}','{"color":"gray","italic":"false","text":"(Maximum 10 Upgrades)"}']}}

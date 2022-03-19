@@ -1,0 +1,27 @@
+_**Patch Notes: The 200% Balance**_
+
+Guns have found a balance at default damage, making for a fun game. What isn’t fun, is the unbalanced damage and health boosts.
+To fix this, the guns are receiving buffs and nerfs based on STK (shots to kill) and the CTOS (cost to one shot). This allows 
+the unbuffed gameplay to remain nearly the same, based on keeping the same STK, and rebalances the guns based on how much you 
+have to spend to make any given weapon “one shot”. This rebalance also tries to make “second round” purchase weapons viable 
+late game as well, making comebacks against stronger opponents more likely with skilled gameplay and good choices.
+
+**Pistol:**            Headshot dmg        3 -> 3.3
+
+**Revolver:**          Headshot dmg        3 -> 3.2
+
+**Slug Shotgun:**      Price            1800 -> 1700
+
+**Spread Shotgun:**    Price            2000 -> 1800
+
+**Scout Rifle: **      Base dmg         375 -> 400
+                       Headshot multiplier    2.4 -> 1.8
+
+**Burst Rifle:**       Base dmg        200 -> 250
+                       Headshot multiplier    2 -> 1.8
+
+**Assault Rifle:**     Price            3500 -> 3600
+
+**Light Sniper:**      Base dmg        900 -> 700
+                       RPM            100 -> 80
+                       Range            150 -> 70

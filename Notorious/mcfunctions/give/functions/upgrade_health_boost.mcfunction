@@ -1,0 +1,2 @@
+give @s carrot_on_a_stick{CustomModelData:11b,display:{Name:'{"text":"HEALTH BOOST","color":"red","italic":"false"}',Lore:['{"color":"gray","italic":"false","text":"Gives up to 500 Health"}','{"color":"gray","italic":"false","text":"Starts Health Regen, Purges Stun"}']}}
+scoreboard players remove @s coins 500

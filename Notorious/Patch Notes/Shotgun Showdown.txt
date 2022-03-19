@@ -1,0 +1,29 @@
+**Patch Notes: Shotgun Showdown**
+Small update to the guns today. The short story is that the shotguns will be buffed, making them a much more effective buy. 
+The other noticeable update is the lowered prices to the Scout and Burst, conforming to a ‘pistol-save-round’ meta makes both 
+weapons purchasable after a single save. This makes killing tanks/ubers easier with more accessible prices to more powerful weapons. 
+Although the AK also has become cheaper, it will not be purchasable next round and has received a nerf as well. Lastly, the heavy 
+sniper is still a killing machine, so a small nerf to reload speed makes accuracy and range a must with this weapon. Other small
+fixes to UI were made.
+
+Slug Shotgun:
+Base Damage               750 ->800
+Range                     10 -> 15
+Headshot Multiplier       1.6 -> 1.5
+
+Spread:
+Base Damage               200 -> 300
+Range                     8 -> 10
+
+Scout:
+Price                     2700 -> 2500
+
+Burst:
+Price                     2400 -> 2200
+
+Assault Rifle:
+Base Damage               250 -> 200
+Price                     3600 -> 3000
+
+Heavy Sniper:
+Reload Speed              3 -> 4 seconds

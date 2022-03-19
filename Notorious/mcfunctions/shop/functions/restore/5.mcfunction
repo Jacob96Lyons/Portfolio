@@ -1,0 +1,1 @@
+replaceitem entity @s inventory.5 barrier{CustomModelData:11b,display:{Name:'{"text":"HEALTH BOOST","color":"red","italic":"false"}',Lore:['{"color":"gray","italic":"false","text":"Immediately heals 500 Health,"}','{"color":"gray","italic":"false","text":"starts Health Regeneration,"}','{"color":"gray","italic":"false","text":"and clears Slow Punch"}']}}

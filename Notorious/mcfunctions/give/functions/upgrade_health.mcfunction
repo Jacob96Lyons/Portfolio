@@ -1,0 +1,2 @@
+give @s carrot_on_a_stick{CustomModelData:13b,display:{Name:'{"text":"HEALTH BONUS","color":"red","italic":"false"}',Lore:['{"color":"gray","italic":"false","text":"Increases Base Health"}','{"color":"gray","italic":"false","text":"By 200. Maximum 10 Upgrades"}']}}
+scoreboard players remove @s coins 1000

@@ -1,0 +1,1 @@
+replaceitem entity @s inventory.7 barrier{CustomModelData:12b,display:{Name:'{"text":"REGENERATION BONUS","color":"green","italic":"false"}',Lore:['{"color":"gray","italic":"false","text":"Increases Base Regeneration"}','{"color":"gray","italic":"false","text":"by 8 health per second"}','{"color":"gray","italic":"false","text":"(Maximum 10 Upgrades)"}']}}
