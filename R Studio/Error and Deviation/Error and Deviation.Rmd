@@ -1,0 +1,228 @@
+## packages to use ##
+library(MASS)
+library(leaps)
+library(tidyverse)
+library(ggplot2)
+library(ISLR)
+library(ggthemes)
+library(caret)
+
+
+## Applied Exercises ##
+
+## Question 1 ##
+
+## a) sample mean is the estimate for population mean ##
+muhat<-mean(Boston$medv)
+print(paste("An estimate for the population mean of medv is",round(muhat,2)))
+###### ###### ###### ###### ###### ######
+
+
+## b) Estimate of the standard error of mu is number of observations ##
+n<-length(Boston$medv)
+## sample standard deviation ##
+s<-sd(Boston$medv)
+## standard error on mean ##
+se<-s/sqrt(n)
+print(paste("An estimate of standard error of sample mean",round(se,4)))
+
+## this says that the distribution of sample mean of medv has a standard deviation/error of 0.4089. As per central limit theorem, the distribution of sample mean is normal with mean = population mean and standard error = \frac{\sigma}{\sqrt{n}} ##
+###### ###### ###### ###### ###### ###### 
+
+
+## c) set the seed ##
+set.seed(123)
+## set the bootrap samples ##
+B<-5000
+## initialize variable to hold the mean ##
+mustar<-numeric(B)
+for (i in 1:B){
+## sample with replacement using sample() ##
+s<-sample(Boston$medv,size=n,replace=TRUE)
+## calculate the mean ##
+mustar[i]<-mean(s)
+}
+## estimate of standard error of mean is ##
+print(paste("An estimate of standard error of sample mean",round(sd(mustar),4)))
+
+## The estimate of standard error is 0.4137, close to the estimate in part b) ##
+###### ###### ###### ###### ###### ######
+
+
+## d) 95% confidence interval ##
+## upper limit ##
+ucl<-muhat+2*sd(mustar)
+## lower limit ##
+lcl<-muhat-2*sd(mustar)
+print(paste("95% confidence interval for mean of medv is [",round(lcl,4),",",round(ucl,4),"]" ))
+## value using t.test ##
+cl<-t.test(Boston$medv)
+print(data.frame(cl$conf.int))
+
+## the 2 estimates of confidence intervals are [21.72, 23.3456] using boostrap ## 
+## the 2 estimates of confidence intervals are [21.7295,23.3361] using t.test() ##
+###### ###### ###### ###### ###### ######
+
+
+## e) an estimate of the median ##
+medhat<-median(Boston$medv)
+print(paste("An estimate for the median of medv is",round(medhat,2)))
+###### ###### ###### ###### ###### ######
+
+
+## f) an estimate of standard error of median using boostrap ##
+## set the seed ##
+set.seed(123)
+## set the bootrap samples ##
+B<-5000
+## initialize variable to hold the median ##
+medstar<-numeric(B)
+for (i in 1:B){
+## sample with replacement using sample() ##
+s<-sample(Boston$medv,size=n,replace=TRUE)
+## calculate the median ##
+medstar[i]<-median(s)
+}
+## estimate of standard error of mean is ##
+print(paste("An estimate of standard error of median",round(sd(medstar),4)))
+###### ###### ###### ###### ###### ######
+
+
+## h) bootstrap to estimate the 10th percentile ##
+## set the seed ##
+set.seed(123)
+## set the bootrap samples ##
+B<-5000
+## initialize variable to hold the median ##
+tenpstar<-numeric(B)
+for (i in 1:B){
+## sample with replacement using sample() ##
+s<-sample(Boston$medv,size=n,replace=TRUE)
+## calculate the median ##
+tenpstar[i]<-quantile(s,p=0.1)
+}
+## estimate of standard error of quantile is ##
+print(paste("An estimate of standard error of 10th percentile is",round(sd(tenpstar),4)))
+
+## The estimate of 10th percentile has a standard error of 0.4991. The error in the estimate of 10th percentile is higher than the estimate of median.. The true value of 10th percentile is some where within +-2*0.4991 = +-0.9982 of 12.75 with 95% certainty. ##
+###### ###### ###### ###### ###### ######
+
+
+## Question 2 ##
+
+## a) Generating a predictor X of length n=100, and a noise vector ε of length n = 100 using rnorm() function: ##
+## set the seed ##
+set.seed(1)
+##  predictor X of length n=100 ##
+X <- rnorm(100) 
+## noise vector ε of length n = 100 ##
+noise <- rnorm(100) 
+###### ###### ###### ###### ###### ######
+
+
+## b) Generating a response vector Y of length n = 100 according to the model ##
+## We took beta_0, beta_1, beta_2, beta_3 = 1, 2, -3, -4 respectively. We can choose any value. ##
+Y <- 3 + 1*X + 4*X^2 - 1*X^3 + noise
+###### ###### ###### ###### ###### ######
+
+
+## c) ##
+## Using data.frame() to create a single dataset containing both X and Y ##
+df <- data.frame(Y, X)
+fit <- regsubsets(Y ~ poly(X, 10), data = df, nvmax = 10)
+## summary of fit ##
+fit_summary <- summary(fit)
+
+data_frame(Cp = fit_summary$cp,
+           BIC = fit_summary$bic,
+           AdjR2 = fit_summary$adjr2) %>%
+    mutate(id = row_number()) %>%
+    gather(value_type, value, -id) %>%
+    ggplot(aes(id, value, col = value_type)) +
+    geom_line() + geom_point() + ylab('') + xlab('Number of Variables Used') +
+    facet_wrap(~ value_type, scales = 'free') +
+    theme_tufte() + scale_x_continuous(breaks = 1:10)
+###### ###### ###### ###### ###### ######
+
+
+## d) repeat (c) with forward stepwise selection ##
+model_back <- train(Y ~ poly(X, 10), data = df, 
+                    method = 'glmStepAIC', direction = 'backward', 
+                    trace = 0,
+               trControl = trainControl(method = 'none', verboseIter = FALSE))
+
+postResample(predict(model_back, df), df$Y)
+## summary of model_back ##
+summary(model_back$finalModel)
+## The backward stepwise model agrees with the best subsets model ##
+x_poly <- poly(df$X, 10)
+colnames(x_poly) <- paste0('poly', 1:10)
+model_forw <- train(y = Y, x = x_poly,
+                    method = 'glmStepAIC', direction = 'forward',
+                    trace = 0,
+               trControl = trainControl(method = 'none', verboseIter = FALSE))
+
+postResample(predict(model_forw, data.frame(x_poly)), df$Y)
+## summary of model_forw ##
+summary(model_forw$finalModel)
+## The forward stepwise model also agrees ##
+
+## Both the forward stepwise selection model and backward stepwise selection model agree with best selection model. ##
+###### ###### ###### ###### ###### ######
+
+
+## Question 3 ##
+
+## given code (basically) ##
+## a) & b) ##
+set.seed(1)
+x = rnorm(100, 2, 1)
+es = rnorm(100, 0, 1)
+y = 1 + 2.5*x + es
+mod1 <- lm(y~x)
+summary(mod1)
+## b) =0.1077 ##
+###### ###### ###### ###### ###### ######
+
+
+## c) ##
+s <- rep(0,1000)
+for(i in 1:1000){
+x=rnorm(n=100,2,1)
+es=rnorm(n=100,0,1)
+y<-1+2.5*x+es
+mod2<-lm(y~x)
+s[i]<-mod2$coefficients[2]
+}
+sd(s)
+## c) =0.1035, which is close to 0.107 ##
+###### ###### ###### ###### ###### ######
+
+
+## d) ##
+x1<-rnorm(100,2,1)
+x1<-rnorm(3,2,1)
+es<-rnorm(3,0,1)
+y1<-1+2.5*x1+es
+mod3<-lm(y1~x1)
+summary(mod3)
+## from regression fit, Std. Error = 0.5862 ##
+s1<-rep(0,1000)
+for(i in 1:1000){
+x2<-rnorm(3,2,1)
+es2<-rnorm(3,0,1)
+y2<-1+2.5*x2+es2
+mod3<-lm(y2~x2)
+s1[i]<-mod3$coefficients[2]
+}
+sd(s1)
+## from bootstrap, Std. Er = 2.15 ##
+## so with smaller sample size, these two are very different ##
+###### ###### ###### ###### ###### ######
+
+
+## e) ##
+## no we cannot do (b) with n=2, because for regression method to work we must have at least 1 sample greater than the total number of regressors. This includes the constant vector ##
+###### ###### ###### ###### ###### ######
+
+

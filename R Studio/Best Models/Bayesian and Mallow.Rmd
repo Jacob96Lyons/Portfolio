@@ -1,0 +1,82 @@
+## clear console and environment ##
+rm(list = ls())
+cat("\014")
+## packages to use ##
+library(leaps)
+load("diamonds.RData")
+names(diamonds)
+
+## Tasks ##
+
+## Question 1 ##
+
+## 0) set.seed(1) ##
+set.seed(1)
+###### ###### ###### ###### ###### ######
+
+
+## 1) Apply best subset selection. Identify the best model that is determined by Bayesian information criterion (BIC) and display its estimated coefficients ##
+## remove clarity because it is unused ##
+prune = diamonds
+prune$clarity = NULL
+sum(is.na(prune)) # check for missing values
+str(prune)
+
+## best subset selection ##
+regfit.full = regsubsets(price ~ ., prune)
+reg.summary = summary(regfit.full)
+which.min(reg.summary$bic)
+coef(regfit.full, which.min(reg.summary$bic))
+###### ###### ###### ###### ###### ######
+
+
+## 2) Apply forward stepwise selection. Identify the best model that is determined by adjusted R-square and display its estimated coefficients ##
+## forward stepwise selection ##
+f.step = regsubsets(price ~ ., data = prune, method = "forward")
+f.sum = summary(f.step)
+which.max(f.sum$adjr2)
+coef(f.step, which.max(f.sum$adjr2))
+###### ###### ###### ###### ###### ######
+
+
+## 3) Apply backward stepwise selection. Identify the best model that is determined by Mallow’s Cp and display its estimated coefficients ##
+## backward stepwise selection ##
+b.step = regsubsets(price ~ ., data = prune, method = "backward")
+b.sum = summary(b.step)
+which.min(b.sum$cp)
+coef(b.step, which.min(b.sum$cp))
+###### ###### ###### ###### ###### ######
+
+
+## 4) Apply best subset selection. Identity the best model that is determined by 10-fold crossvalidation and display its estimated coefficients ##
+predict.regsubsets = function(object, newdata, id, ...) {
+form = as.formula(object$call[[2]])
+mat = model.matrix(form, newdata)
+coefficient = coef(object, id = id)
+x.var = names(coefficient)
+mat[, x.var] %*% coefficient
+}
+k = 10
+set.seed(1)
+n.var = ncol(prune) - 1
+folds = sample(1:k, nrow(prune), replace = TRUE)
+cv.err = matrix(NA, k, n.var, dimnames = list(NULL, paste(1:n.var)))
+for (j in 1:k) {
+best.fit = regsubsets(price ~ ., data = prune[folds !=
+j, ])
+for (i in 1:n.var) {
+pred = predict(best.fit, prune[folds == j, ], id = i)
+cv.err[j, i] = mean((prune$price[folds == j] -
+pred)^2)
+  }
+}
+mean.cv.err = apply(cv.err, 2, mean)
+mean.cv.err
+which.min(mean.cv.err)
+
+## estimated coefficients of the best model ##
+reg.best = regsubsets(price ~ ., data = prune)
+coef(reg.best, which.min(mean.cv.err))
+###### ###### ###### ###### ###### ######
+
+

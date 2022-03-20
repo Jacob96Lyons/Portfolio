@@ -1,0 +1,42 @@
+## auto printing may break plots ##
+par(mfrow=c(3,3))
+
+## require packages ##
+library(MASS)
+library(ISLR)
+library(car)
+library(ggplot2)
+
+## load the data ##
+str(diamonds)
+names(diamonds)
+
+## Simple Linear Regression Model with carat predictor ##
+model1<-lm(price~carat, data=diamonds)
+
+summary(model1)
+plot(model1)
+
+## Multiple Linear Regression Model with carat, cut, x, y, z, and depth predictors ##
+model2<-lm(price~carat+cut+x+y+z+depth, data = diamonds)
+
+summary(model2)
+vif(model2)
+plot(model2)
+
+## Multiple Linear Regression Model with carat, cut, depth, clarity, the interaction between cut and clarity, the interaction bewteen depth and clarity as the predictors, provide a summary of the fitted model, provide the variance inflation factor for each predictor, and show diagnostic plots for the model ##
+model3<-lm(price~carat+cut+depth+clarity, data = diamonds)
+model4<-lm(price~cut*clarity, data = diamonds)
+model5<-lm(price~depth*clarity, data = diamonds)
+
+summary(model3)
+vif(model3)
+plot(model3)
+
+summary(model4)
+vif(model4)
+plot(model4)
+
+summary(model5)
+vif(model5)
+plot(model5)

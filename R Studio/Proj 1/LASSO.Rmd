@@ -1,0 +1,145 @@
+## clear console and environment ##
+rm(list = ls())
+cat("\014")
+
+## packages to use ##
+library(ISLR)
+library(glmnet)
+library(MASS)
+str(Boston)
+names(Boston)
+library(leaps)
+library(ggplot2)
+library(glmnet)
+require(caret)
+library(tidyverse)
+library(ggthemes)
+
+## Tasks ##
+
+## 0) Please use set.seed(1) for all operations that involve user-induced randomness ##
+set.seed(1)
+###### ###### ###### ###### ###### ######
+
+## 1) Please randomly split (using the sample command) the observations into a training set and a validation set, so that the training set can be used to fit a linear model, and the validation set can be used to evaluate the prediction accuracy of the fitted model ##
+train<-sample(nrow(Boston), 306)
+Boston.train<-Boston[train,]
+Boston.valid<-Boston[-train,]
+preObj <- preProcess(Boston.train, method = c('center', 'scale'))
+training <- predict(preObj, Boston.train)
+testing <- predict(preObj, Boston.valid)
+y.train <- training$medv
+y.test <- testing$medv
+
+encoding <- dummyVars(medv ~ ., data = training)
+x.train <- predict(encoding, training)
+x.test <- predict(encoding, testing)
+
+lin.model<-lm(medv ~ ., data = Boston.train)
+summary(lin.model) 
+pred<-predict(lin.model, Boston.valid)
+MSE=mean((Boston.valid$medv-pred)^2)
+MSE
+par(mfrow = c(1,1))
+plot(lin.model)
+par(mfrow = c(2,2))
+plot(lin.model)
+###### ###### ###### ###### ###### ######
+
+## 2) Apply best subset selection on all potential predictors without interactions between them, report the best model and its fitted model, perform model diagnostics on the model, conduct hypothesis tests on some coefficients of the model and report your findings, and assess the prediction accuracy of the fitted model and report your findings. ##
+reglist <- regsubsets(medv~., data=Boston, method = "forward")
+sum <- summary(reglist)
+
+## Plots ##
+plot(sum$rss, main = "", xlab="# of Variables", ylab="RSS", type = 'l')
+min_rss <- which.min(sum$rss)
+points(min_rss, sum$rss[min_rss], pch=10, col="red")
+title(main = "sum$rss")
+
+plot(sum$adjr2, xlab="# of Variables", ylab="Adjr2", type = 'l')
+max_adjr2 <- which.max(sum$adjr2)
+points(max_adjr2, sum$adjr2[max_adjr2], pch=10, col="red")
+title(main = "sum$adjr2")
+
+plot(sum$cp, xlab="# of Variables", ylab="CP", type = 'l')
+min_cp <- which.min(sum$cp)
+points(min_cp, sum$cp[min_cp], pch=10, col="red")
+title(main = "sum$cp")
+
+plot(sum$bic, xlab="# of Variables", ylab="BIC", type = 'l')
+min_bic <- which.min(sum$bic)
+points(min_bic, sum$bic[min_bic], pch=10, col="red")
+title(main = "sum$bic")
+
+## Get the best coefficients ##
+coef(reglist, 8)
+lm_model <- lm(medv ~ zn + chas + nox + rm + dis + ptratio + black + lstat, data=Boston)
+
+pred <- predict(lm_model, testing)
+(lin.info <- postResample(pred, testing$medv))
+
+summary(lm_model)
+mse <- mean(lm_model$residuals ^ 2)
+mse
+
+
+###### ###### ###### ###### ###### ######
+
+## 3) Implement LASSO (with cross-validation to select the optimal tuning parameter) on all potential predictors without interactions between them, report the best model (that is based on the optimal tuning parameter) and its fitted model, conduct hypothesis tests on some coefficients of the model and report your findings, and assess the prediction accuracy of the fitted model and report your findings. ##
+lasso.fit <- train(x = x.train, y = y.train, 
+                   method = 'glmnet',
+                   trControl = trainControl(method = 'cv', number = 10),
+                   tuneGrid = expand.grid(alpha = 1,
+                                          lambda = seq(0.0001, 1, length.out = 50)))
+                                          
+(lasso.info <- postResample(predict(lasso.fit, x.test), y.test))
+coef(lasso.fit$finalModel, lasso.fit$bestTune$lambda)
+plot(lasso.fit)
+plot(varImp(lasso.fit))
+###### ###### ###### ###### ###### ######
+
+## 4) Implement ridge regression (with cross-validation to select the optimal tuning parameter) without interactions between them, report the best model (that is based on the optimal tuning parameter) and its fitted model, conduct hypothesis tests on some coefficients of the model and report your findings, and assess the prediction accuracy of the fitted model and report your findings. ##
+
+ridge.fit <- train(x = x.train, y = y.train,
+                    method = "glmnet",
+                    trControl = trainControl(
+                    method = "cv", number = 10),
+                    tuneGrid = expand.grid(alpha = 0,
+                                          lambda = seq(0, 10e2, length.out = 20)))
+
+(ridge.info <- postResample(predict(ridge.fit, x.test), y.test))
+
+coef(ridge.fit$finalModel, ridge.fit$bestTune$lambda)
+plot(ridge.fit)
+###### ###### ###### ###### ###### ######
+
+## 5) Among the best/optimal models you would find in (2), (3) and (4) respectively, which one has the best prediction accuracy? If you consider a trade-off between the number of predictors in a model and its prediction accuracy, which among the best models you found in (2), (3) and (4) would you prefer? ##
+
+as_data_frame(rbind(lin.info,
+      ridge.info,
+      lasso.info))
+      
+
+testing %>%
+    summarize(sd = sd(medv))
+    
+The Lasso and Ridge models performed similarly. R2≥70 for them all and RMSE≤53. However LM performed very differently, with R2≥36 for them all and RMSE≤33.8 (or 33800) I suspect this is because of my code and not completely accurate results. When we compare the RMSE scores with the mean and standard deviation of the response variable we see that the models all have phenomenal accuracy.
+
+residfunc <- function(fit, data) {
+ predict(fit, data) - testing$medv
+}
+
+data_frame(Observed = testing$medv,
+           LM = residfunc(lin.model, testing),
+           Ridge = residfunc(ridge.fit, x.test),
+           Lasso = residfunc(lasso.fit, x.test)) %>%
+    gather(Model, Residuals, -Observed) %>%
+    ggplot(aes(Observed, Residuals, col = Model)) +
+    geom_hline(yintercept = 0, lty = 2) +
+    geom_point(alpha = 0.6) +
+    geom_smooth(method = 'loess', alpha = 0.01, col = 'lightsalmon2') +
+    facet_wrap(~ Model, ncol = 5) +
+    theme_tufte() +
+    theme(legend.position = 'top') +
+    coord_flip()
+###### ###### ###### ###### ###### ######

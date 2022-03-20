@@ -1,0 +1,53 @@
+## packages to use ##
+library(ISLR)
+library(glmnet)
+data("College")
+
+## Applied Exercises ##
+
+## Question 1 ##
+
+## a) Split the data set into a training set and a test set ##
+library(ISLR)
+data("College")
+set.seed(1)
+train<-sample(nrow(College), 600)
+College.train<-College[train,]
+College.test<-College[-train,]
+
+###### ###### ###### ###### ###### ######
+
+## b) Fit a linear model using least squares on the training set, and report the test error obtained ##
+lin_model<-lm(Apps ~ ., data = College.train)
+lin_model
+pred<-predict(lin_model, College.test)
+MSE=mean((College.test$Apps-pred)^2)
+MSE
+###### ###### ###### ###### ###### ######
+
+## c) Fit a ridge regression model on the training set, with λ chosen by cross-validation. Report the test error obtained ##
+library(glmnet)
+## For ridge regression, we must pass in an x matrix as well as a y vector for train and test sets ##
+xtrain=model.matrix (Apps~.,College.train)[,-1]
+ytrain=College.train$Apps
+xtest=model.matrix (Apps~.,College.test)[,-1]
+ytest=College.test$Apps
+## Using cross-validation to choose the tuning parameter ##
+set.seed (1)
+cv.out=cv.glmnet (xtrain,ytrain,alpha =0)
+bestlam=cv.out$lambda.min
+model=glmnet(xtrain,ytrain,alpha=0,lambda=bestlam)
+pred=predict(model,s=bestlam ,newx=xtest)
+MSE=mean((pred-ytest)^2)
+MSE
+###### ###### ###### ###### ###### ######
+
+## d) Fit a lasso model on the training set, with λ chosen by crossvalidation. Report the test error obtained, along with the number of non-zero coefficient estimates ##
+set.seed (1)
+cv.out=cv.glmnet (xtrain,ytrain,alpha =1)
+bestlam=cv.out$lambda.min
+model=glmnet(xtrain,ytrain,alpha=1,lambda=bestlam)
+pred=predict(model,s=bestlam ,newx=xtest)
+MSE=mean((pred-ytest)^2)
+MSE
+###### ###### ###### ###### ###### ######

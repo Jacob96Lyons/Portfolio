@@ -1,0 +1,62 @@
+## packages to use ##
+library(MASS)
+library(ISLR)
+library(ggplot2)
+library(boot)
+library(leaps)
+
+## set seed ##
+set.seed(1)
+
+## load the data ##
+str(diamonds)
+names(diamonds)
+
+## function to estimate alpha ##
+alpha.fn=function(data,index){
+  X=data$X[index]
+  Y=data$Y[index]
+  return((var(Y)-cov(X,Y))/(var(X)+var(Y)-2*cov(X,Y)))
+}
+
+## Randomly select 200 observations without replacement from the full set of observations, and save them into datasubset. Save the set to "datasubset" ##
+boot.fn=function(data,index) {
+  Fitlm = lm(price~.,data=data,subset=index)
+  estCoef = coef(Fitlm)
+  return(estCoef)
+}
+dim(diamonds)
+boot.fn(diamonds,1:53940)
+set.seed(1)
+datasubset = boot.fn(diamonds,sample(200,200,replace=F))
+
+## Estimate the mean of price by its sample mean and estimate the standard deviation of the sample mean by bootstrap with 1000 bootstrap sample sets ##
+mean.fn = function(data,index) {
+   xmean = mean(data[index])
+   return(xmean)
+  }
+set.seed(1)
+boot(datasubset,mean.fn,1000)
+  
+## Build a multiple linear regression model with price as the response, and carat and cut as predictors. Use bootstrap to estimate the standard deviation of each of the estimated coefficients of the predictors with 500 bootstrap sample sets.##
+multi.fn=function(data,index) {
+  coefficients(lm(price~carat+cut,data=data,subset=index))
+}
+set.seed(1)
+boot(datasubset,multi.fn,500)
+summary(lm(price~carat+cut,data=diamonds))$coef
+
+##  Build a multiple linear regression model with price as the response, and carat and cut as predictors. Use 5-fold cross-validation to estimate the test error in terms of mean squared error of the estimated model.##
+set.seed(1)
+cross.fn=function(data,index)
+  return(coef(lm(price~carat+cut,data=data,subset=index)))
+  boot(datasubset,cross.fn,500)
+KF=5
+PD=10
+cv.error.10=rep(0,PD)
+for (i in 1:PD){
+glm.fit=glm(price~poly(carat+cut,i),data=datasubset)
+cv.error.10[i]=cv.glm(datasubset,glm.fit,K=KF)$delta[1]
+}
+cv.error.10
+
